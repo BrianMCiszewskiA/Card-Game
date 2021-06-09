@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Cards</title>
+		<style type="text/css">
+			body{
+				background-color: green;
+			}
+			section {
+			text-align: center;
+			margin-right: auto;
+			margin-left: auto;
+			margin-bottom: auto;
+			margin-top: auto;
+			}
+			#table{
+				text-align: center;
+			}
+			#scorePoints{
+				display: flex;
+			}
+		</style>
+		<script type="text/javascript" src="C:/Users/brian/OneDrive/Escritorio/proyectos/cards/cardsMain.js"></script>
+		<script type="text/javascript" src="C:/Users/brian/OneDrive/Escritorio/proyectos/cards/cardGame.js"></script>
+	</head>
+	<body>
+		<section id="scorePoints">
+				<table>
+					<tr>
+						<td>Player</td>
+						<td>Pc</td>
+					</tr>
+					<tr>
+						<td id="playerPoints" value="0">0</td>
+						<td id="npcPoints" value="0">0</td>
+					</tr>
+				</table>
+			</section>
+		<section>
+			<!--<button id="gameButton" onclick="grabCard()">take a card</button> old thingy-->
+			<button id="gameButton" onclick="startGame()">start Game</button>
+			<div id="npchand"></div>
+			<div id="table"></div>
+			<div id="hand"></div>
+			
+		</section>
+		
+	</body>
+</html>
