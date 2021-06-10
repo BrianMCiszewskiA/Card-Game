@@ -30,12 +30,12 @@ function pickCard(){
 	if (usedCards.length == 48){
 		return "No hay mas cartas"
 	}else{
-		usedCards.push(card)
+		usedCards.push(card.name)
 		return card
 	}
 }
 function cardRepeated(card){
-	return usedCards.includes(card)
+	return usedCards.includes(card.name)
 }
 function deckNotEmpty(){
 	return usedCards.length < 48

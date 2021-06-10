@@ -51,23 +51,27 @@ function playerTurn(){
 
 function playerSelect(cardPosition){
 	eliminarElemento("texto");
-	selectCard(cardPosition, playerHand, playerSide);
 	deactivateImageButton();
+	selectCard(cardPosition, playerHand, playerSide, "c");
 	updateImages();
 	npcTurn();
 }
 
-function selectCard(cardPosition, hand, tableSide){
+function selectCard(cardPosition, hand, tableSide, identifier){
 	let card = hand[cardPosition];
-	tableSide.pop()//podria despues hacer algo para apilarlo y mostrar la ultima carta nomas
-	tableSide.push(card) 
-	hand.splice(cardPosition, 1)
+	tableSide.pop();//podria despues hacer algo para apilarlo y mostrar la ultima carta nomas
+	tableSide.push(card);
+	hand.splice(cardPosition, 1);
+	eliminarElemento(identifier + cardPosition);
 }
 
 function npcTurn(){
 	let cardPosition = getRandomInt(0,3);
-	selectCard(cardPosition, npcHand, npcSide);
-	endTurn()
+	if(!deckNotEmpty()){
+		cardPosition=0; //cuando se terminan las cartas del mazo usa la primera de la mano
+	}
+	selectCard(cardPosition, npcHand, npcSide, "r");
+	endTurn();
 }
 
 function endTurn(){
@@ -77,7 +81,11 @@ function endTurn(){
 	takeCard(playerHand);
 	takeCard(npcHand);
 	updateImages();
-	startTurn()
+	if(playerHand.length > 0){
+		startTurn()
+	} else {
+		showGameOverScreen();
+	}
 }
 
 function whoWins(){
@@ -120,8 +128,10 @@ function updateImages(){
 
 function updatePHandImage(){
 	let box = document.getElementById("hand");
+	eliminarElemento("c1");
+	eliminarElemento("c2");
+	eliminarElemento("c3");
 	for(i=0; i< playerHand.length; i++){
-		eliminarElemento("c" + (i+1));
 		box.appendChild(createImage("cardsImage/" + playerHand[i].image, "c" + (i+1), playerHand[i].name));
 	}
 }
@@ -136,8 +146,10 @@ function updateTable(){
 }
 function updateNpcHandImage(){
 	let box = document.getElementById("npchand");
+	eliminarElemento("r1");
+	eliminarElemento("r2");
+	eliminarElemento("r3");
 	for(i=0; i< npcHand.length; i++){
-		eliminarElemento("r" + (i+1));
 		box.appendChild(createImage("cardsImage/npcCard.png", "r" + (i+1), "rivalCard" + (i+1)));
 	}
 }
@@ -164,4 +176,25 @@ function addScore(winnerPoints){
 	let actualPoints = Number(score.textContent); //transforma el string a numero
 	let newScore = document.createTextNode(actualPoints + 1);
 	score.replaceChild(newScore, score.childNodes[0]);
+}
+function showGameOverScreen(){
+	let playerScore = Number(document.getElementById("playerPoints").textContent);
+	let pcScore = Number(document.getElementById("npcPoints").textContent);
+
+	//sacar la visibilidad de los elementos en pantalla
+	let where = document.getElementById("scorePoints");
+	let h = document.createElement("H3");
+	let t = document.createTextNode(matchWinner(playerScore, pcScore));
+
+	h.appendChild(t);
+	where.appendChild(h);
+}
+function matchWinner(pScore, pcScore){
+	if (pScore > pcScore){
+		return "El Jugador Gana";
+	} else if (pcScore> pScore){
+		return "La Pc Gana";
+	} else {
+		return "Es un empate";
+	}
 }
