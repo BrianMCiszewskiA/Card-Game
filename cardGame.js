@@ -65,7 +65,8 @@ function selectCard(cardPosition, hand, tableSide){
 }
 
 function npcTurn(){
-	selectCard(getRandomInt(0,3), npcHand, npcSide);
+	let cardPosition = getRandomInt(0,3);
+	selectCard(cardPosition, npcHand, npcSide);
 	endTurn()
 }
 
